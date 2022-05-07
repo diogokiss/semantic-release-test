@@ -1,0 +1,25 @@
+name: Release
+on:
+  push:
+    branches: [main]
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+jobs:
+  release:
+    name: Semantic release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Semantic Release
+        id: semantic-release
+        uses: cycjimmy/semantic-release-action@v3
+        with:
+          semantic_version: 19.0.2
+          extra_plugins: |
+            @semantic-release/git
