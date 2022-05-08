@@ -6,7 +6,7 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Repository checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -25,7 +25,14 @@ jobs:
         uses: guilhermetod/semantic-release-notes-preview@v1.0.0
 
       - name: Comment on the Pull Request
+        if: steps.release-notes-preview.outputs.releaseNotes
         uses: thollander/actions-comment-pull-request@v1
         with:
-          message: ${{ steps.release-notes-preview.outputs.releaseNotes }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          comment_includes: "release notes"
+          message: |
+            Below is a preview of the release notes if your PR gets merged.
+
+            ---
+
+            ${{ steps.release-notes-preview.outputs.releaseNotes }}
