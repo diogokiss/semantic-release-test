@@ -9,13 +9,17 @@ jobs:
     name: Semantic release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-node@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
           node-version: '16'
+
       - name: Semantic Release
         id: semantic-release
         uses: cycjimmy/semantic-release-action@v3
@@ -23,3 +27,4 @@ jobs:
           semantic_version: 19.0.2
           extra_plugins: |
             @semantic-release/git
+            @semantic-release/changelog
